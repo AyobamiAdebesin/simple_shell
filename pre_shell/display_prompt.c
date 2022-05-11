@@ -2,6 +2,5 @@
 
 void display_prompt(void)
 {
-	printf("$ ");
-	return;
+	write(STDERR_FILENO, "$ ", 2);
 }
