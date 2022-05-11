@@ -12,6 +12,8 @@
 
 
 void display_prompt(void);
+int _putchar(char c);
+
 
 
 #endif

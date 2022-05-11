@@ -6,13 +6,13 @@ int main(void)
 	size_t n = 0;
 	int n_bytes_read;
 
-	do
+	while(n_bytes_read != EOF)
 	{
-		write(STDOUT_FILENO, "$ ", 2);
+		display_prompt();
 		n_bytes_read = getline(&buffer, &n, stdin);
 		printf("Number of characters read: %i\n", n_bytes_read);
 		printf("%s", buffer);
-	}while(n_bytes_read != EOF);
+	}
 
 	free(buffer);
 
