@@ -2,8 +2,8 @@
 
 int main(void)
 {
-	char s[] = "Adebesin-Ayobami-Sodiq";
-	const char *delim = "-";
+	char s[] = "Adebesin Ayobami Sodiq";
+	const char *delim = " ";
 	char *token;
 	token = strtok(s, delim);
 
