@@ -2,13 +2,15 @@
 
 int main(void)
 {
-	char *argv[] = {"jims", "jams", NULL};
+	char *argv[] = {"/bin/ls", "-l", "/usr/", NULL};
+	printf("Before execve\n");
 
-	char *const envp[] = {"some", "environment", NULL};
+	if (execve(argv[0], argv, NULL) == -1)
+	{
+		perror("Error");
+	}
+	printf("After execve\n");
 
-	printf("Main program before execve");
-	if (execve("./getppid", argv, envp) == -1)
-		perror("Could not execve");
 	return (0);
 
 }	
