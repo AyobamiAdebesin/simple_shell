@@ -11,7 +11,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-
 void display_prompt(void);
 int _putchar(char c);
 
