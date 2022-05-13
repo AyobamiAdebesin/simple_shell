@@ -11,7 +11,8 @@
 #include <limits.h>
 #include <errno.h>
 
-
+void print_prompt1(void);
+void print_prompt2(void);
 
 
 #endif
