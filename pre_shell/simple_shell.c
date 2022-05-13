@@ -24,9 +24,6 @@ char *get_input()
 	char *line_ptr = NULL;
 	size_t n = 0;
 	int n_bytes_read;
-	char *token;
-	char *delimiter = " ";
-
 	do
 	{
 		display_prompt();
@@ -41,16 +38,17 @@ char *tokenize_input(char *line_ptr)
 	char *token;
 	char *delimiter = " ";
 	token = strtok(line_ptr, delimiter);
-	char *argv[] = {};
-	int i;
 
 	while (token != NULL)
 	{
+		printf("%s\n", token);
 		token = strtok(NULL, delimiter);
+		/*
 		if (execve(token, argv, NULL) == -1)
 		{
 			perror("No such command\n");
 		}
+		*/
 	}
 	
 	/*
@@ -66,11 +64,11 @@ char *tokenize_input(char *line_ptr)
 
 int main(void)
 {
-	char *line_ptr;
+	char *lineptr;
 	
-	line_ptr = get_input();
-	tokenize_input(line_ptr);
+	lineptr = get_input();
+	tokenize_input(lineptr);
 
-	free(line_ptr);
+	free(lineptr);
 	return (0);
 }	
