@@ -2,7 +2,7 @@
 
 char *read_cmd(void)
 {
-	char buff[1024];
+	char buf[1024];
 	char *ptr = NULL;
 	char ptrlen = 0;
 
