@@ -31,6 +31,27 @@ char *read_cmd(void)
 
 		if(!ptr)
 		{
-			perror(:x
+			fprintf(stderr, "error:failed to alloc buffer: %s\n", strerror(errno));
+			return NULL;
+		}
 
+		strcpy(ptr + ptrlen, buf);
+
+		if (buf[buflen -1] == '\n')
+		{
+			if (buflen == 1 || buf[buflen -2] != '\\')
+			{
+				return ptr;
+			}
+
+			ptr[ptrlen + buflen-2] = '\0';
+			buflen -= 2;
+			print_prompt2();
+		}
+
+		ptrlen += buflen;
+	}
+
+	return ptr;
+}
 
