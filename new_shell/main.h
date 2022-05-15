@@ -10,6 +10,7 @@
 #include <string.h>
 #include <limits.h>
 #include <errno.h>
+#include <unistd.h>
 
 void print_prompt1(void);
 void print_prompt2(void);
