@@ -1,4 +1,7 @@
 #include "main.h"
+#include "source.h"
+#include "parser.h"
+#include "backend.h"
 
 int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
@@ -26,7 +29,11 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 			break;
 		}
 
-		printf("%s\n", cmd);
+		struct source_s src;
+		src.buffer   = cmd;
+		src.bufsize  = strlen(cmd);
+		src.curpos   = INIT_SRC_POS;
+		parse_and_execute(&src);
 
 		free(cmd);
 
