@@ -5,7 +5,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-#include "shell.h"
+#include "main.h"
 #include "node.h"
 #include "executor.h"
 

@@ -1,5 +1,5 @@
 #include <errno.h>
-#include "shell.h"
+#include "main.h"
 #include "source.h"
 
 void unget_char(struct source_s *src)

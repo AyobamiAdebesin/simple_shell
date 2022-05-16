@@ -1,5 +1,5 @@
 #include <unistd.h>
-#include "shell.h"
+#include "main.h"
 #include "parser.h"
 #include "scanner.h"
 #include "node.h"

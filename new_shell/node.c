@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <errno.h>
-#include "shell.h"
+#include "main.h"
 #include "node.h"
 #include "parser.h"
 
