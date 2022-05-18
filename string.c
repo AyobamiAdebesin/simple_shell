@@ -38,10 +38,10 @@ size_t _strlen(char *str)
 	return (len);
 }
 /**
- * _strcpy - string copy
+ * _strcpy - Copy src string to destination
  * @dest: dest string
  * @src: source string
- * Return: string
+ * Return: dest string
  */
 char *_strcpy(char *dest, char *src)
 {
