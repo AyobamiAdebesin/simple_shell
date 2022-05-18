@@ -1,4 +1,4 @@
-nclude "holberton.h"
+nclude "main.h"
 
 /**
  *  * searchNode - searches linked list for string and
