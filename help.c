@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 /**
  * help - help builtin command
  * @cmd: if command matches a builtin name, text file is sent to stdout
