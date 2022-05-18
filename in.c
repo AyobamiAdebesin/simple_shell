@@ -227,12 +227,12 @@ int shintmode(void)
 			pwd = _getenv("PWD");
 			if (pwd != NULL)
 			{
-				fprintstrs(1, "simplesh:", pwd, "$", NULL);
+				fprintstrs(1, "simpleshell:", pwd, "$", NULL);
 				free(pwd);
 			}
 			else
 			{
-				fprintstrs(1, "simplesh$", NULL);
+				fprintstrs(1, "simpleshell$", NULL);
 			}
 		}
 		lenr = _getline(&bufgl, STDIN_FILENO);
