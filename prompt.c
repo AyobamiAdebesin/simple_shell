@@ -9,9 +9,9 @@
  * end operation when EOF is given
  */
 
-void _prompt()
+void _prompt(void)
 {
-    putchar('>');
+	putchar('>');
 
 }
 
