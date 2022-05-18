@@ -6,11 +6,11 @@
  * @next: points to the next node
  *
  * Description: singly linked list node structure
- * for Holberton project
+ * for ALX project
  */
 typedef struct HistList
 {
 	char *cmd;
-	struct HistList *next;
+	struct HistList next;
 } HistList;
 #endif
