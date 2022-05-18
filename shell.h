@@ -28,14 +28,6 @@ int parseargs(char **buf);
 /* from errhandl.c */
 int errhandl(int status);
 
-/* from _getenv.c and getenviron.c */
-char ***getenviron(void);
-int setallenv(char **environ, char *add);
-char *_getenv(char *avzero);
-int _setenv(char *name, char *val);
-int _unsetenv(char *name);
-char **getallenv(void);
-
 /* from string.c */
 size_t _strlen(char *str);
 char *_strcpy(char *dest, char *src);
@@ -49,6 +41,14 @@ char *_strchr(char *s, char c);
 int fprintstrs(int fd, char *str, ...);
 int printerr(char *);
 int linecount(int);
+
+/* from _getenv.c and getenviron.c */
+char ***getenviron(void);
+int setallenv(char **environ, char *add);
+char *_getenv(char *avzero);
+int _setenv(char *name, char *val);
+int _unsetenv(char *name);
+char **getallenv(void);
 
 /* from cd.c */
 int _cd(char *av[]);
