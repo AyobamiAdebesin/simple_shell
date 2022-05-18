@@ -1,110 +1,101 @@
-#include "main.h"
-
+#include "shell.h"
 /**
- * cdFunc - execute cd builtin
- * @build: input build
- * Return: 1 on success, 0 on failure
+ *_cd - change directory builtin
+ * @av: argument
+ * Return: int ret
  */
-int cdFunc(config *build)
+int _cd(char *av[])
 {
-	register uint count = 0;
-	_Bool ableToChange = false;
+	char *oldpwd = NULL, *newpath, *pathbit, *newptr;
+	char *homestr = "HOME", *oldpwdstr = "OLDPWD";
+	int ret, printpath = 0;
 
-	count = countArgs(build->args);
-	if (count == 1)
-		ableToChange = cdToHome(build);
-	else if (count == 2 && _strcmp(build->args[1], "-") == 0)
-		ableToChange = cdToPrevious(build);
-	else
-		ableToChange = cdToCustom(build);
-	if (ableToChange)
-		updateEnviron(build);
-	return (1);
-}
-
-/**
- * cdToHome - change directory to home
- * @build: input build
- * Return: true on success, false on failure
- */
-_Bool cdToHome(config *build)
-{
-	register int i;
-	char *str, *ptr;
-
-	i = searchNode(build->env, "HOME");
-	if (i == -1)
+	oldpwd = getcwd(oldpwd, 0);
+	if (oldpwd == NULL)
+		return (1);
+	if (av[1] == NULL || av[1][0] == 0)
 	{
-		return (true);
+		newpath = _getenv(homestr);
+		if (newpath == homestr)
+			newpath = _strdup("");
+		av[1] = newpath;
+		av[2] = NULL;
 	}
-	str = getNodeAtIndex(build->env, i);
-	ptr = _strchr(str, '=');
-	ptr++;
-	chdir(ptr);
-	free(str);
-	return (true);
-}
-
-/**
- * cdToPrevious - change directory to previous directory -
- * address is found in OLDPWD env var
- * @build: input build
- * Return: true on success, false on failure
- */
-_Bool cdToPrevious(config *build)
-{
-	register int i;
-	char *str, *ptr;
-	char *current = NULL;
-
-	current = getcwd(current, 0);
-	i = searchNode(build->env, "OLDPWD");
-	if (i == -1)
+	else if (av[1][0] == '-' && av[1][1] == 0)
 	{
-		chdir(current);
-		write(STDOUT_FILENO, current, _strlen(current));
-		displayNewLine();
-		return (true);
+		/*check getenv malloc error here and above*/
+		newpath = _getenv(oldpwdstr);
+		if (newpath == oldpwdstr)
+			newpath = _strdup("");
+		printpath = 1;
+		free(av[1]);
+		av[1] = newpath;
 	}
-	str = getNodeAtIndex(build->env, i);
-	ptr = _strchr(str, '=');
-	ptr++;
-	chdir(ptr);
-	write(STDOUT_FILENO, ptr, _strlen(ptr));
-	displayNewLine();
-	free(str);
-	return (true);
-}
-
-/**
- * cdToCustom - change directory to what user inputs in
- * @build: input build
- * Return: true on success, false on failure
- */
-_Bool cdToCustom(config *build)
-{
-	register int changeStatus;
-
-	changeStatus = chdir(build->args[1]);
-	if (changeStatus == -1)
+	/*{*/
+#ifdef DEBUGCD
+	printf("Making new path %s:%c\n", av[1], av[1][0]);
+#endif
+	newpath = malloc(sizeof(char) * (_strlen(oldpwd) + _strlen(av[1]) + 2));
+	if (newpath == NULL)
+		return (-1);
+	newptr = newpath;
+	pathbit = oldpwd;
+	if (av[1][0] != '/' && pathbit[1] != 0)
+		while (*pathbit)
+			*newptr++ = *pathbit++;
+	*newptr++ = '/';
+	pathbit = strtok(av[1], "/");
+#ifdef DEBUGCD
+	printf("starting newpath:%s:Pathbit got:%s\n", newpath, pathbit);
+	printf("newpath/ptr diff:%p\n", newptr - newpath);
+#endif
+	while (pathbit != NULL)
 	{
-		errno = EBADCD;
-		errorHandler(build);
-		return (false);
+		if (pathbit[0] == '.' && pathbit[1] == '.'
+		    && pathbit[2] == 0)
+		{
+#ifdef DEBUGCD
+			printf("going back a directory%s:%s\n", newpath, newpath);
+#endif
+			newptr--;
+			if (newptr != newpath)
+				newptr--;
+			while (*newptr != '/')
+				newptr--;
+			*newptr++ = '/';
+		}
+		else if (!(pathbit[0] == '.' && pathbit[1] == 0))
+		{
+			while (*pathbit)
+				*newptr++ = *pathbit++;
+			*newptr++ = '/';
+		}
+		pathbit = strtok(NULL, "/");
+#ifdef DEBUGCD
+		printf("Got pathbit:%s\n", pathbit);
+#endif
 	}
-	return (true);
-}
-
-/**
- * updateEnviron - change environmental variables
- * @build: input build
- * Return: true on success false on failure
- */
-_Bool updateEnviron(config *build)
-{
-	register int i;
-
-	i = updateOld(build);
-	updateCur(build, i);
-	return (true);
+	if (newptr != newpath && newptr != newpath + 1)
+		newptr--;
+	*newptr = 0;
+#ifdef DEBUGCD
+	printf("New path:%s\n", newpath);
+#endif
+	/*}*/
+	ret = chdir(newpath);
+	if (ret == 0)
+	{
+		_setenv("OLDPWD", oldpwd);
+		free(oldpwd);
+		_setenv("PWD", newpath);
+		if (printpath)
+			fprintstrs(1, newpath, "\n", NULL);
+		free(newpath);
+		return (0);
+	}
+	printerr(": cd: can't cd to ");
+	fprintstrs(STDERR_FILENO, av[1], "\n", NULL);
+	free(oldpwd);
+	free(newpath);
+	return (ret);
 }

@@ -1,80 +1,199 @@
-#include "main.h"
-
+#include "shell.h"
 /**
- * aux_help_env - Help information for the builtin env
- * Return: no return
+ * help - help builtin command
+ * @cmd: if command matches a builtin name, text file is sent to stdout
+ * Return: 0 if sucess
  */
-void aux_help_env(void)
+int help(char *cmd)
 {
-	char *help = "env: env [option] [name=value] [command [args]]\n\t";
+	char *file;
+	int fd, r;
+	char *s;
 
-	write(STDOUT_FILENO, help, _strlen(help));
-	help = "Print the enviroment of the shell.\n";
-	write(STDOUT_FILENO, help, _strlen(help));
+	if (cmd == NULL)
+	{
+		s = "help: no builtin entered.\n";
+		r = _strlen(s);
+		r = write(1, s, r);
+		return (0);
+	}
 
-}
-/**
- * aux_help_setenv - Help information for the builtin setenv
- * Return: no return
- */
-void aux_help_setenv(void)
-{
-
-	char *help = "setenv: setenv (const char *name, const char *value,";
-
-	write(STDOUT_FILENO, help, _strlen(help));
-	help = "int replace)\n\t";
-	write(STDOUT_FILENO, help, _strlen(help));
-	help = "Add a new definition to the environment\n";
-	write(STDOUT_FILENO, help, _strlen(help));
-}
-/**
- * aux_help_unsetenv - Help information for the builtin unsetenv
- * Return: no return
- */
-void aux_help_unsetenv(void)
-{
-	char *help = "unsetenv: unsetenv (const char *name)\n\t";
-
-	write(STDOUT_FILENO, help, _strlen(help));
-	help = "Remove an entry completely from the environment\n";
-	write(STDOUT_FILENO, help, _strlen(help));
-}
-
-
-/**
- * aux_help_general - Entry point for help information for the help builtin
- * Return: no return
- */
-void aux_help_general(void)
-{
-	char *help = "^-^ bash, version 1.0(1)-release\n";
-
-	write(STDOUT_FILENO, help, _strlen(help));
-	help = "These commands are defined internally.Type 'help' to see the list";
-	write(STDOUT_FILENO, help, _strlen(help));
-	help = "Type 'help name' to find out more about the function 'name'.\n\n ";
-	write(STDOUT_FILENO, help, _strlen(help));
-	help = " alias: alias [name=['string']]\n cd: cd [-L|[-P [-e]] [-@]] ";
-	write(STDOUT_FILENO, help, _strlen(help));
-	help = "[dir]\nexit: exit [n]\n  env: env [option] [name=value] [command ";
-	write(STDOUT_FILENO, help, _strlen(help));
-	help = "[args]]\n  setenv: setenv [variable] [value]\n  unsetenv: ";
-	write(STDOUT_FILENO, help, _strlen(help));
-	help = "unsetenv [variable]\n";
-	write(STDOUT_FILENO, help, _strlen(help));
-}
-/**
- * aux_help_exit - Help information fot the builint exit
- * Return: no return
- */
-void aux_help_exit(void)
-{
-	char *help = "exit: exit [n]\n Exit shell.\n";
-
-	write(STDOUT_FILENO, help, _strlen(help));
-	help = "Exits the shell with a status of N. If N is ommited, the exit";
-	write(STDOUT_FILENO, help, _strlen(help));
-	help = "statusis that of the last command executed\n";
-	write(STDOUT_FILENO, help, _strlen(help));
+	if (!_strcmp(cmd, "cd"))
+	{
+		file = "help_cd";
+		fd = open(file, O_RDWR);
+		s = malloc(256);
+		if (s == NULL)
+			return (-1);
+		while ((r = read(fd, s, 256)) > 0)
+		{
+			r = write(1, s, r);
+			if  (r == -1)
+			{
+				return (-1);
+			}
+		}
+		free(s);
+		fd = close(fd);
+		return (0);
+	}
+	else if (!_strcmp(cmd, "history"))
+	{
+		file = "help_hist";
+		fd = open(file, O_RDWR);
+		s = malloc(256);
+		if (s == NULL)
+			return (-1);
+		while ((r = read(fd, s, 256)) > 0)
+		{
+			r = write(1, s, r);
+			if  (r == -1)
+			{
+				return (-1);
+			}
+		}
+		free(s);
+		fd = close(fd);
+		return (0);
+	}
+	else if (!_strcmp(cmd, "help"))
+	{
+		file = "help_hel";
+		fd = open(file, O_RDWR);
+		s = malloc(256);
+		if (s == NULL)
+			return (-1);
+		while ((r = read(fd, s, 256)) > 0)
+		{
+			r = write(1, s, r);
+			if  (r == -1)
+			{
+				return (-1);
+			}
+		}
+		free(s);
+		fd = close(fd);
+		return (0);
+	}
+	else if (!_strcmp(cmd, "alias"))
+	{
+		file = "help_al";
+		fd = open(file, O_RDWR);
+		s = malloc(256);
+		if (s == NULL)
+			return (-1);
+		while ((r = read(fd, s, 256)) > 0)
+		{
+			r = write(1, s, r);
+			if  (r == -1)
+			{
+				return (-1);
+			}
+		}
+		free(s);
+		fd = close(fd);
+		return (0);
+	}
+	else if (!_strcmp(cmd, "unset"))
+	{
+		file = "help_unset";
+		fd = open(file, O_RDWR);
+		s = malloc(256);
+		if (s == NULL)
+			return (-1);
+		while ((r = read(fd, s, 256)) > 0)
+		{
+			r = write(1, s, r);
+			if  (r == -1)
+			{
+				return (-1);
+			}
+		}
+		free(s);
+		fd = close(fd);
+		return (0);
+	}
+	else if (!_strcmp(cmd, "unalias"))
+	{
+		file = "help_unal";
+		fd = open(file, O_RDWR);
+		s = malloc(256);
+		if (s == NULL)
+			return (-1);
+		while ((r = read(fd, s, 256)) > 0)
+		{
+			r = write(1, s, r);
+			if  (r == -1)
+			{
+				return (-1);
+			}
+		}
+		free(s);
+		fd = close(fd);
+		return (0);
+	}
+	else if (!_strcmp(cmd, "env"))
+	{
+		file = "help_env";
+		fd = open(file, O_RDWR);
+		s = malloc(256);
+		if (s == NULL)
+			return (-1);
+		while ((r = read(fd, s, 256)) > 0)
+		{
+			r = write(1, s, r);
+			if  (r == -1)
+			{
+				return (-1);
+			}
+		}
+		free(s);
+		fd = close(fd);
+		return (0);
+	}
+	else if (!_strcmp(cmd, "unsetenv"))
+	{
+		file = "help_unenv";
+		fd = open(file, O_RDWR);
+		s = malloc(256);
+		if (s == NULL)
+			return (-1);
+		while ((r = read(fd, s, 256)) > 0)
+		{
+			r = write(1, s, r);
+			if  (r == -1)
+			{
+				return (-1);
+			}
+		}
+		free(s);
+		fd = close(fd);
+		return (0);
+	}
+	else if (!_strcmp(cmd, "setenv"))
+	{
+		file = "help_setenv";
+		fd = open(file, O_RDWR);
+		s = malloc(256);
+		if (s == NULL)
+			return (-1);
+		while ((r = read(fd, s, 256)) > 0)
+		{
+			r = write(1, s, r);
+			if  (r == -1)
+			{
+				return (-1);
+			}
+		}
+		free(s);
+		fd = close(fd);
+		return (0);
+	}
+	else
+	{
+		s = "help: no help topics match.\n";
+		r = _strlen(s);
+		r = write(1, s, r);
+		return (0);
+	}
 }
