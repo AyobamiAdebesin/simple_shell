@@ -3,7 +3,6 @@
 /**
  * shell - simple shell
  * @build: input build
- * shell project is fun
  */
 void shell(config *build)
 {

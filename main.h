@@ -3,14 +3,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <sys/wait.h>
-#include <unistd.h>
+#include <errno.h>
+#include <signal.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <errno.h>
-#include <signal.h>
+#include <stdbool.h>
+#include <sys/wait.h>
+#include <unistd.h>
 #include <limits.h>
 
 /* ERRORS */
@@ -24,10 +24,10 @@
 extern char **environ;
 
 /**
- *  * struct linkedList - linked list data structure
- *   * @string: environ variable path name
- *    * @next: pointer to next node
- *     */
+ * struct linkedList - linked list data structure
+ * @string: environ variable path name
+ * @next: pointer to next node
+ */
 typedef struct linkedList
 {
 	char *string;
@@ -35,17 +35,17 @@ typedef struct linkedList
 } linked_l;
 
 /**
- *  * struct configurations - configuration of build settings
- *   * @env: linked list of local env variables
- *    * @envList: array of env variables to put into execve
- *     * @args: array of argument strings
- *      * @buffer: string buffer of user input
- *       * @path: array of $PATH locations
- *        * @fullPath: string of path with correct prepended $PATH
- *         * @shellName: name of shell (argv[0])
- *          * @lineCounter: counter of lines users have entered
- *           * @errorStatus: error status of last child process
- *            */
+ * struct configurations - configuration of build settings
+ * @env: linked list of local env variables
+ * @envList: array of env variables to put into execve
+ * @args: array of argument strings
+ * @buffer: string buffer of user input
+ * @path: array of $PATH locations
+ * @fullPath: string of path with correct prepended $PATH
+ * @shellName: name of shell (argv[0])
+ * @lineCounter: counter of lines users have entered
+ * @errorStatus: error status of last child process
+ */
 typedef struct configurations
 {
 	linked_l *env;
@@ -60,10 +60,10 @@ typedef struct configurations
 } config;
 
 /**
- *  * struct builtInCommands - commands and functions associated with it
- *   * @command: input command
- *    * @func: output function
- *     */
+ * struct builtInCommands - commands and functions associated with it
+ * @command: input command
+ * @func: output function
+ */
 typedef struct builtInCommands
 {
 	char *command;

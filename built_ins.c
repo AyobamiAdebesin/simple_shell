@@ -92,3 +92,4 @@ int aliasFunc(config *build)
 	(void)build;
 	write(STDOUT_FILENO, str, _strlen(str));
 	return (1);
+}
