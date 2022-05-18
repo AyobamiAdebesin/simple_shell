@@ -1,93 +1,87 @@
-#include "main.h"
+#include "holberton.h"
 
 /**
- * implement_cd - execute cd builtin
+ * cdFunc - execute cd builtin
  * @build: input build
  * Return: 1 on success, 0 on failure
  */
-int implement_cd(config *build)
+int cdFunc(config *build)
 {
 	register uint count = 0;
-	_Bool can_change = false;
+	_Bool ableToChange = false;
 
-	count = count_args(build->args);
+	count = countArgs(build->args);
 	if (count == 1)
-	{
-		can_change = cd_to_home(build);
-	}
+		ableToChange = cdToHome(build);
 	else if (count == 2 && _strcmp(build->args[1], "-") == 0)
-	{
-		can_change = cd_to_previous(build);
-	}
+		ableToChange = cdToPrevious(build);
 	else
-	{
-		can_change = cd_to_custom(build);
-	}
-	if (can_change)
-	{
-		update_environ(build);
-	}
+		ableToChange = cdToCustom(build);
+	if (ableToChange)
+		updateEnviron(build);
 	return (1);
 }
 
 /**
- * cd_to_home - change directory to home
+ * cdToHome - change directory to home
  * @build: input build
  * Return: true on success, false on failure
  */
-_Bool cd_to_home(config *build)
+_Bool cdToHome(config *build)
 {
 	register int i;
 	char *str, *ptr;
 
-	i = search_node(build->env, "HOME");
+	i = searchNode(build->env, "HOME");
 	if (i == -1)
 	{
 		return (true);
 	}
-	str = get_node_at_index(build->env, i);
+	str = getNodeAtIndex(build->env, i);
 	ptr = _strchr(str, '=');
 	ptr++;
 	chdir(ptr);
+	free(str);
 	return (true);
 }
 
 /**
- * cd_to_previous - change directory to previous directory -
+ * cdToPrevious - change directory to previous directory -
  * address is found in OLDPWD env var
  * @build: input build
  * Return: true on success, false on failure
  */
-_Bool cd_to_previous(config *build)
+_Bool cdToPrevious(config *build)
 {
 	register int i;
 	char *str, *ptr;
 	char *current = NULL;
 
 	current = getcwd(current, 0);
-	i = search_node(build->env, "OLDPWD");
+	i = searchNode(build->env, "OLDPWD");
 	if (i == -1)
 	{
 		chdir(current);
 		write(STDOUT_FILENO, current, _strlen(current));
-		put_new_line();
+		displayNewLine();
 		return (true);
 	}
-	str = get_node_at_index(build->env, i);
+	str = getNodeAtIndex(build->env, i);
 	ptr = _strchr(str, '=');
 	ptr++;
 	chdir(ptr);
 	write(STDOUT_FILENO, ptr, _strlen(ptr));
-	put_new_line();
+	displayNewLine();
+	free(str);
 	return (true);
 }
 
 /**
- * cd_to_custom - change directory to what user inputs in
+ * cdToCustom - change directory to what user inputs in
  * @build: input build
  * Return: true on success, false on failure
  */
-_Bool cd_to_custom(config *build)
+_Bool cdToCustom(config *build)
 {
 	register int changeStatus;
 
@@ -95,7 +89,7 @@ _Bool cd_to_custom(config *build)
 	if (changeStatus == -1)
 	{
 		errno = EBADCD;
-		handle_errors(build);
+		errorHandler(build);
 		return (false);
 	}
 	return (true);
@@ -106,11 +100,11 @@ _Bool cd_to_custom(config *build)
  * @build: input build
  * Return: true on success false on failure
  */
-_Bool update_environ(config *build)
+_Bool updateEnviron(config *build)
 {
 	register int i;
 
-	i = update_old(build);
-	update_cur_dir(build, i);
+	i = updateOld(build);
+	updateCur(build, i);
 	return (true);
 }

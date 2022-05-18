@@ -1,48 +1,47 @@
-#include "main.h"
+#include "holberton.h"
 
 /**
  * checkPath - searches $PATH for directory of command
- *
- * Description: checks the path of a given command
  * @build: input build
- * Return: the state of the path values
  */
-_Bool check_path(config *build)
+_Bool checkPath(config *build)
 {
 	register int len;
 	static char buffer[BUFSIZE];
 	struct stat st;
-	char *token, *copy, *delim = ":", *tmp;
+	char *tok, *copy, *delim = ":", *tmp;
 	_Bool inLoop = false;
 
-	if (validate_constraints(build))
+	if (checkEdgeCases(build))
 		return (true);
 	copy = _strdup(build->path);
-	token = _strtok(copy, delim);
-	while (token)
+	tok = _strtok(copy, delim);
+	while (tok)
 	{
-		tmp = inLoop ? token - 2 : token;
+		tmp = inLoop ? tok - 2 : tok;
 		if (*tmp == 0 && stat(build->args[0], &st) == 0)
 		{
-			build->full_path = build->args[0];
-			return (true);
-		}
-		len = _strlen(token) + _strlen(build->args[0]) + 2;
-		_strcat(buffer, token);
-		_strcat(buffer, "/");
-		_strcat(buffer, build->args[0]);
-		get_null_bytes(buffer, len - 1);
-		if (stat(buffer, &st) == 0)
-		{
-			build->full_path = buffer;
+			build->fullPath = build->args[0];
 			free(copy);
 			return (true);
 		}
-		get_null_bytes(buffer, 0);
-		token = _strtok(NULL, delim);
+		len = _strlen(tok) + _strlen(build->args[0]) + 2;
+		_strcat(buffer, tok);
+		_strcat(buffer, "/");
+		_strcat(buffer, build->args[0]);
+		insertNullByte(buffer, len - 1);
+		if (stat(buffer, &st) == 0)
+		{
+			free(copy);
+			build->fullPath = buffer;
+			return (true);
+		}
+		insertNullByte(buffer, 0);
+		tok = _strtok(NULL, delim);
 		inLoop = true;
 	}
-	build->full_path = build->args[0];
+	build->fullPath = build->args[0];
+	free(copy);
 	return (false);
 }
 
@@ -51,7 +50,7 @@ _Bool check_path(config *build)
  * @build: input build
  * Return: true if found, false if not
  */
-_Bool validate_constraints(config *build)
+_Bool checkEdgeCases(config *build)
 {
 	char *copy;
 	struct stat st;
@@ -59,12 +58,14 @@ _Bool validate_constraints(config *build)
 	copy = _strdup(build->path);
 	if (!copy)
 	{
-		build->full_path = build->args[0];
+		build->fullPath = build->args[0];
+		free(copy);
 		return (true);
 	}
 	if (*copy == ':' && stat(build->args[0], &st) == 0)
 	{
-		build->full_path = build->args[0];
+		build->fullPath = build->args[0];
+		free(copy);
 		return (true);
 	}
 	free(copy);

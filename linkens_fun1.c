@@ -1,15 +1,15 @@
-#include "main.h"
+#include "holberton.h"
 
 /**
- * add_node_to_front - adds a new node at the beginning of a linked_l list
+ * addNode - adds a new node at the beginning of a linked_l list
  * @head: reference to head of linked list
  * @str: string to be added on new node
  * Return: address of new head;
  */
-linked_l *add_node_to_front(linked_l **head, char *str)
+linked_l *addNode(linked_l **head, char *str)
 {
 	linked_l *newNode;
-	char *new_str;
+	char *newStr;
 
 	if (!str)
 		return (NULL);
@@ -18,18 +18,16 @@ linked_l *add_node_to_front(linked_l **head, char *str)
 	{
 		perror("Malloc failed\n");
 		exit(errno);
-		free(newNode);
 	}
-	new_str = _strdup(str);
-	if (!new_str)
+	newStr = _strdup(str);
+	if (!newStr)
 	{
 		perror("Malloc failed\n");
 		exit(errno);
 	}
-	newNode->string = new_str;
+	newNode->string = newStr;
 	newNode->next = *head;
 	*head = newNode;
-	/*free(newNode);*/
 	return (*head);
 }
 
@@ -39,7 +37,7 @@ linked_l *add_node_to_front(linked_l **head, char *str)
  * @str: string to be added to linked list
  * Return: address of new node
  */
-linked_l *add_node_to_end(linked_l **head, char *str)
+linked_l *addNodeEnd(linked_l **head, char *str)
 {
 	linked_l *newNode;
 	linked_l *last = *head;
@@ -52,11 +50,11 @@ linked_l *add_node_to_end(linked_l **head, char *str)
 	{
 		perror("Malloc failed\n");
 		exit(errno);
-		free(newNode);
 	}
 	newStr = _strdup(str);
 	if (!newStr)
 	{
+		free(newNode);
 		perror("Malloc failed\n");
 		exit(errno);
 	}
@@ -74,18 +72,18 @@ linked_l *add_node_to_end(linked_l **head, char *str)
 }
 
 /**
- * print_list - prints all elements of a linked_l list
+ * printList - prints all elements of a linked_l list
  * @h: pointer to head of list
  * Return: number of elements
  */
-size_t print_list(const linked_l *h)
+size_t printList(const linked_l *h)
 {
 	register int count = 0;
 
 	while (h)
 	{
 		write(STDOUT_FILENO, h->string, _strlen(h->string));
-		put_new_line();
+		displayNewLine();
 		h = h->next;
 		count++;
 	}
@@ -94,13 +92,13 @@ size_t print_list(const linked_l *h)
 }
 
 /**
- * delete_node_at_index - deletes the node at index
+ * deleteNodeAtIndex - deletes the node at index
  * index of a linked_l linked list
  * @head: double pointer to head of list
  * @index: index of node to be deleted
  * Return: 1 if success, -1 if fail
  */
-int delete_node_at_index(linked_l **head, unsigned int index)
+int deleteNodeAtIndex(linked_l **head, unsigned int index)
 {
 	linked_l *current;
 	linked_l *next;
@@ -113,6 +111,7 @@ int delete_node_at_index(linked_l **head, unsigned int index)
 	if (!index)
 	{
 		*head = current->next;
+		free(current);
 		return (1);
 	}
 	for (i = 0; current && i < index - 1; i++)
@@ -121,8 +120,8 @@ int delete_node_at_index(linked_l **head, unsigned int index)
 		return (-1);
 	next = current->next->next;
 	free(current->next->string);
+	free(current->next);
 	current->next = next;
-	/* free(current->next); */
 	return (1);
 }
 
