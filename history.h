@@ -11,6 +11,6 @@
 typedef struct HistList
 {
 	char *cmd;
-	struct HistList next;
+	struct HistList *next;
 } HistList;
 #endif
