@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 #include "alias.h"
 /**
  * getalist - static wrapper getalias list
