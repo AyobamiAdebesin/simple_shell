@@ -179,8 +179,8 @@ int builtincall(char *av[])
 */
 	else if (!_strcmp(av[0], "history"))
 		retval = print_hist();
-	else if (!_strcmp(av[0], "help"))
-		retval = help(av[1]);
+	/*else if (!_strcmp(av[0], "help"))
+		retval = help(av[1]);*/
 	else if (!_strcmp(av[0], "env"))
 		retval = _printenv();
 	else if (!_strcmp(av[0], "setenv"))
