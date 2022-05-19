@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 #include "alias.h"
 #include "shellvars.h"
 
