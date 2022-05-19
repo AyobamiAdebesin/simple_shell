@@ -1,4 +1,4 @@
-#include "shellvars.h"
+#include "shell_variables.h"
 
 /**
  * getspecial - wrapper for getspecial static var

@@ -1,6 +1,6 @@
 #include "main.h"
 #include "alias.h"
-#include "shellvars.h"
+#include "shell_variables.h"
 
 char ***getenviron();
 ShellVar **getspecial();

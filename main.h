@@ -10,7 +10,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stddef.h>
-#include "shellvars.h"
+#include "shell_variables.h"
 
 /* from in.c */
 int shintmode(void);
@@ -58,7 +58,7 @@ int aliascmd(char **av);
 char *getalias(char *name);
 int unsetalias(char *name);
 
-/* from shellvars.c */
+/* from shell_variables.c */
 int initsvars(int ac, char **av);
 char *getsvar(char *name);
 int setsvar(char *name, char *val);
