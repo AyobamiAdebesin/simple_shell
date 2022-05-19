@@ -11,7 +11,7 @@ int _putchar(char c)
 	return (write(1, &c, 1));
 }
 /**
- * _printenv - print environment
+ * _printenv - Print an environment
  * Return: 0 if success
  */
 int _printenv(void)
