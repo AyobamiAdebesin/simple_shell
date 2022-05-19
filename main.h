@@ -11,7 +11,6 @@
 #include <fcntl.h>
 #include <stddef.h>
 #include "shellvars.h"
-/*#include <string.h>*/
 
 /* from in.c */
 int shintmode(void);
@@ -28,13 +27,6 @@ int parseargs(char **buf);
 
 /* from errhandl.c */
 int errhandl(int status);
-
-/* from string.c */
-size_t _strlen(char *str);
-char *_strcpy(char *dest, char *src);
-int _strcmp(char *, char *);
-char *_strdup(char *str);
-char *_strcat(char *a, char *b);
 
 /* from utility.c */
 char *itos(int digits);
@@ -54,7 +46,14 @@ char **getallenv(void);
 /* from cd.c */
 int _cd(char *av[]);
 
+/* from string.c */
+size_t _strlen(char *str);
+char *_strcpy(char *dest, char *src);
+int _strcmp(char *, char *);
+char *_strdup(char *str);
+char *_strcat(char *a, char *b);
 /* from alias.c */
+
 int aliascmd(char **av);
 char *getalias(char *name);
 int unsetalias(char *name);
